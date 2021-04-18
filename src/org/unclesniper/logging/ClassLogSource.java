@@ -1,6 +1,6 @@
 package org.unclesniper.logging;
 
-public class ClassLogSource implements LogSource {
+public class ClassLogSource implements ClassNameBearingLogSource {
 
 	private final String className;
 
@@ -34,12 +34,13 @@ public class ClassLogSource implements LogSource {
 		this.methodName = methodName;
 	}
 
-	public String getClassName() {
-		return className;
-	}
-
 	public String getMethodName() {
 		return methodName;
+	}
+
+	@Override
+	public String getClassName() {
+		return className;
 	}
 
 	@Override
