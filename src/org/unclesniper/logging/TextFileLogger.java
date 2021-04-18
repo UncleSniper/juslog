@@ -14,6 +14,8 @@ public class TextFileLogger extends WriterLogger {
 
 	private String charset;
 
+	private boolean append = true;
+
 	public TextFileLogger() {
 		super(null);
 	}
@@ -44,12 +46,21 @@ public class TextFileLogger extends WriterLogger {
 		this.charset = charset;
 	}
 
+	public boolean isAppend() {
+		return append;
+	}
+
+	public void setAppend(boolean append) {
+		this.append = append;
+	}
+
 	@Override
 	protected Writer initializeWriter() throws IOException {
 		if(file == null)
 			throw new MisconfiguredLoggerException("No output file has been configured");
 		try(ResourceHolder<OutputStream, IOException> osh
-				= new ResourceHolder<OutputStream, IOException>(new FileOutputStream(file), OutputStream::close)) {
+				= new ResourceHolder<OutputStream, IOException>(new FileOutputStream(file, append),
+				OutputStream::close)) {
 			Writer w = new OutputStreamWriter(osh.getObject(), charset == null ? "UTF-8" : charset);
 			osh.release();
 			return w;
