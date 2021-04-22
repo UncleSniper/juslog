@@ -1,33 +1,9 @@
 package org.unclesniper.logging;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
+import org.unclesniper.logging.util.SingleIterator;
 
 public class StringLogMessage extends AbstractLogMessage implements Iterable<String> {
-
-	private static final class StringIterator implements Iterator<String> {
-
-		private String message;
-
-		public StringIterator(String message) {
-			this.message = message;
-		}
-
-		@Override
-		public boolean hasNext() {
-			return message != null;
-		}
-
-		@Override
-		public String next() {
-			if(message == null)
-				throw new NoSuchElementException();
-			String m = message;
-			message = null;
-			return m;
-		}
-
-	}
 
 	private final String message;
 
@@ -44,7 +20,7 @@ public class StringLogMessage extends AbstractLogMessage implements Iterable<Str
 
 	@Override
 	public Iterator<String> iterator() {
-		return new StringIterator(message);
+		return new SingleIterator<String>(message);
 	}
 
 }
